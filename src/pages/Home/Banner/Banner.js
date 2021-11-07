@@ -1,6 +1,5 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import chair from "../../../images/chair.png"
 import bg from "../../../images/bg.png"
@@ -23,7 +22,7 @@ const Banner = () => {
             <Box sx={{ width: '75%', mx: "auto" }}>
                 {/* <Container> */}
                 <Grid container spacing={2}>
-                    <Grid item xs={12} md={5} style={{ ...verticalCenter, textAlign: 'left', paddingRight: "100px" }} >
+                    <Grid item xs={12} md={5} style={{ ...verticalCenter, textAlign: 'left' }} >
                         <Box>
                             <Typography variant="h3">
                                 Your New Smile <br />
@@ -36,7 +35,7 @@ const Banner = () => {
                         </Box>
                     </Grid>
                     <Grid item xs={12} md={7} style={verticalCenter}>
-                        <img style={{ width: 550, paddingLeft: "180px" }} src={chair} alt="" />
+                        <img style={{ width: 550 }} src={chair} alt="" />
                     </Grid>
 
                 </Grid>
