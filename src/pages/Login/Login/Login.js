@@ -8,7 +8,7 @@ import login from "../../../images/login.png"
 
 const Login = () => {
     const [loginData, setLoginData] = useState({})
-    const { user, loginUser, isLoading, authError } = useAuth()
+    const { user, loginUser, signinWithGoogle, isLoading, authError } = useAuth()
 
     const location = useLocation()
     const history = useHistory()
@@ -25,15 +25,19 @@ const Login = () => {
         loginUser(loginData.email, loginData.password, location, history)
         e.preventDefault()
     }
+    const handleGoogleSignin = () => {
+        signinWithGoogle(location, history)
+    }
     return (
         <Container>
             <Grid container spacing={2} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Grid item xs={12} md={6} sx={{ mt: 8 }}>
                     <Typography variant="h5" sx={{ color: "#60CCDA" }} gutterBottom>Login</Typography>
+                    {isLoading && <CircularProgress />}
                     <form onSubmit={handleSubmitForm}>
                         <TextField
                             sx={{ width: "75%", m: 1 }}
-                            onChange={handleOnChange}
+                            onBlur={handleOnChange}
                             id="standard-basic"
                             label="Your Email"
                             name="email"
@@ -41,7 +45,7 @@ const Login = () => {
                             variant="standard" />
                         <TextField
                             sx={{ width: "75%", m: 1 }}
-                            onChange={handleOnChange}
+                            onBlur={handleOnChange}
                             id="standard-basic"
                             label="Password"
                             name="password"
@@ -53,15 +57,17 @@ const Login = () => {
                             variant="contained"
                         >Login</Button>
                         <NavLink style={{ textDecoration: "none" }} to="/register"><Button variant="text">New User? Please Register</Button></NavLink>
+
+                        {user.email && <Alert severity="success">
+                            <AlertTitle>Success</AlertTitle>
+                            User Login successfully..!!
+                        </Alert>}
+                        {
+                            authError && <Alert severity="error">{authError}</Alert>
+                        }
                     </form>
-                    {isLoading && <CircularProgress />}
-                    {user.email && <Alert severity="success">
-                        <AlertTitle>Success</AlertTitle>
-                        User Login successfully..!!
-                    </Alert>}
-                    {
-                        authError && <Alert severity="error">{authError}</Alert>
-                    }
+                    <p>---------------------------------------</p>
+                    <Button onClick={handleGoogleSignin} variant="contained">Googel sign in</Button>
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <img src={login} sx={{ width: 1 }}></img>

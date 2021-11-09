@@ -2,7 +2,7 @@ import { Alert, AlertTitle, Button, CircularProgress, Container, Grid, TextField
 import { lightGreen } from '@mui/material/colors';
 import { margin, width } from '@mui/system';
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import login from "../../../images/login.png"
 import useAuth from '../../../Hooks/useAuth';
 
@@ -11,7 +11,9 @@ const Register = () => {
     const [error, setError] = useState("");
     const { user, registerUser, isLoading, authError } = useAuth();
 
-    const handleOnChange = e => {
+    const history = useHistory()
+
+    const handleOnBlur = e => {
         const field = e.target.name;
         const value = e.target.value;
         const newLoginData = { ...loginData };
@@ -27,7 +29,7 @@ const Register = () => {
         }
         else {
             setError("")
-            registerUser(loginData.email, loginData.password)
+            registerUser(loginData.email, loginData.password, loginData.name, history)
         }
         e.preventDefault()
     }
@@ -39,7 +41,16 @@ const Register = () => {
                     {!isLoading && <form onSubmit={handleSubmitForm}>
                         <TextField
                             sx={{ width: "75%", m: 1 }}
-                            onChange={handleOnChange}
+                            onBlur={handleOnBlur}
+                            required
+                            id="standard-basic"
+                            label="Your Name"
+                            name="name"
+                            type="text"
+                            variant="standard" />
+                        <TextField
+                            sx={{ width: "75%", m: 1 }}
+                            onBlur={handleOnBlur}
                             required
                             id="standard-basic"
                             label="Your Email"
@@ -48,7 +59,7 @@ const Register = () => {
                             variant="standard" />
                         <TextField
                             sx={{ width: "75%", m: 1 }}
-                            onChange={handleOnChange}
+                            onBlur={handleOnBlur}
                             required
                             id="standard-basic"
                             label="Password"
@@ -58,7 +69,7 @@ const Register = () => {
                         <Typography sx={{ textAlign: "left", marginLeft: "70px", color: "red" }} variant="caption" display="block" gutterBottom>{error}</Typography>
                         <TextField
                             sx={{ width: "75%", m: 1 }}
-                            onChange={handleOnChange}
+                            onBlur={handleOnBlur}
                             required
                             id="standard-basic"
                             label="Password"
