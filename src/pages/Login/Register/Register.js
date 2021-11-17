@@ -20,7 +20,7 @@ const Register = () => {
         newLoginData[field] = value;
         setLoginData(newLoginData);
     }
-    console.log(loginData);
+
     const handleSubmitForm = e => {
         if (loginData.password !== loginData.password2) {
             setError("Password not match..!!")

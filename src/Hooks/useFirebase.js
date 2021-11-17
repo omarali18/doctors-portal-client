@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut, updateProfile, onAuthStateChanged } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut, updateProfile, getIdToken, onAuthStateChanged } from "firebase/auth";
 import initializeFirebase from "../pages/Login/Firebase/firebase.init";
 import { Password } from "@mui/icons-material";
 
@@ -7,9 +7,11 @@ import { Password } from "@mui/icons-material";
 initializeFirebase()
 
 const useFirebase = () => {
-    const [user, setUser] = useState({})
-    const [authError, setAuthError] = useState("")
-    const [isLoading, setIsLoading] = useState(true)
+    const [user, setUser] = useState({});
+    const [authError, setAuthError] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
+    const [admin, setAdmin] = useState(false);
+    const [token, setToken] = useState("");
 
     const auth = getAuth();
     const googleProvider = new GoogleAuthProvider();;
@@ -22,6 +24,11 @@ const useFirebase = () => {
                 setAuthError("")
                 const newUser = { email, displayName: name }
                 setUser(newUser);
+
+                // save user in database
+                saveUsers(email, name, "POST", Password)
+
+                // update user profile or name in firebase
                 updateProfile(auth.currentUser, {
                     displayName: name
                 })
@@ -67,8 +74,10 @@ const useFirebase = () => {
         setIsLoading(true)
         signInWithPopup(auth, googleProvider)
             .then(result => {
+                const user = result.user
                 const destination = location?.state?.from || "/"
                 history.replace(destination)
+                saveUsers(user.email, user.displayName, "PUT", Password)
                 setAuthError("")
             })
             .catch(error => {
@@ -82,6 +91,10 @@ const useFirebase = () => {
         const unsubscribed = onAuthStateChanged(auth, user => {
             if (user) {
                 setUser(user)
+                getIdToken(user)
+                    .then(idToken => {
+                        setToken(idToken);
+                    })
             }
             else {
                 setUser({})
@@ -89,11 +102,32 @@ const useFirebase = () => {
             setIsLoading(false)
         })
         return () => unsubscribed;
-    }, [])
+    }, [auth])
+
+    // save user in database
+    const saveUsers = (email, displayName, method, Password) => {
+        const user = { email, displayName, Password: "" }
+        fetch("http://localhost:5000/users", {
+            method: method,
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(user)
+        })
+    }
+    useEffect(() => {
+        fetch(`http://localhost:5000/users/${user.email}`)
+            .then(res => res.json())
+            .then(data => {
+                setAdmin(data)
+            })
+    }, [user.email])
 
     return {
         user,
+        admin,
         isLoading,
+        token,
         authError,
         registerUser,
         loginUser,

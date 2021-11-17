@@ -14,9 +14,10 @@ import Paper from '@mui/material/Paper';
 const Appointments = ({ date }) => {
     const [appointments, setAppointments] = useState([])
     const { user } = useAuth()
+    const updateDate = date.toLocaleDateString()
 
     useEffect(() => {
-        const url = `http://localhost:5000/appointments?email=${user.email}&date=${date}`
+        const url = `http://localhost:5000/appointments?email=${user.email}&date=${updateDate}`
         fetch(url)
             .then(res => res.json())
             .then(data => setAppointments(data))

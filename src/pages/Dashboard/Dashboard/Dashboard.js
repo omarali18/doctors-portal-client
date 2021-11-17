@@ -16,10 +16,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import SvgIcon from '@mui/material/SvgIcon';
-import { NavLink } from 'react-router-dom';
-import { Grid } from '@mui/material';
-import Clander from '../../Shared/Clander/Clander';
-import Appointments from '../Appointments/Appointments';
+import { NavLink, useRouteMatch, Switch, Route } from 'react-router-dom';
+import DashboardHome from '../DashboardHome/DashboardHome';
+import MakeAdmin from '../MakeAdmin/MakeAdmin';
+import AddDoctor from '../AddDoctor/AddDoctor';
+import useAuth from '../../../Hooks/useAuth';
+import AdminRoute from '../../Login/AdminRoute/AdminRoute';
 
 const drawerWidth = 240;
 function HomeIcon(props) {
@@ -33,7 +35,9 @@ function HomeIcon(props) {
 function Dashboard(props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
-    const [date, setDate] = React.useState(new Date())
+    const { admin } = useAuth()
+
+    let { path, url } = useRouteMatch();
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -42,7 +46,7 @@ function Dashboard(props) {
     const drawer = (
         <div>
             <Toolbar />
-            {/* <Divider /> */}
+            <Divider />
             <List>
                 <NavLink style={{ textDecoration: 'none', color: 'gray' }} to="home"><ListItem button>
                     <ListItemIcon>
@@ -50,6 +54,36 @@ function Dashboard(props) {
                     </ListItemIcon>
                     <ListItemText primary="Home" />
                 </ListItem></NavLink>
+                <NavLink style={{ textDecoration: 'none', color: 'gray' }} to="Appointment"><ListItem button>
+                    <ListItemIcon>
+                        <HomeIcon color="primary" />
+                    </ListItemIcon>
+                    <ListItemText primary="Appointment" />
+                </ListItem></NavLink>
+                <NavLink style={{ textDecoration: 'none', color: 'gray' }} to={`${url}`}><ListItem button>
+                    <ListItemIcon>
+                        <HomeIcon color="primary" />
+                    </ListItemIcon>
+                    <ListItemText primary="Dashboard" />
+                </ListItem></NavLink>
+                {
+                    admin && <Box>
+                        <NavLink style={{ textDecoration: 'none', color: 'gray' }} to={`${url}/makeAdmin`}><ListItem button>
+                            <ListItemIcon>
+                                <HomeIcon color="primary" />
+                            </ListItemIcon>
+                            <ListItemText primary="Make Admin" />
+                        </ListItem></NavLink>
+                        <NavLink style={{ textDecoration: 'none', color: 'gray' }} to={`${url}/addDoctor`}><ListItem button>
+                            <ListItemIcon>
+                                <HomeIcon color="primary" />
+                            </ListItemIcon>
+                            <ListItemText primary="Add Doctor" />
+                        </ListItem></NavLink>
+
+                    </Box>
+                }
+
                 {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
                     <ListItem button key={text}>
                         <ListItemIcon>
@@ -127,23 +161,17 @@ function Dashboard(props) {
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
                 <Toolbar />
-                <Typography paragraph>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} sm={12} md={6}>
-                            <Clander
-                                date={date}
-                                setDate={setDate}
-                            ></Clander>
-                        </Grid>
-                        <Grid item xs={12} sm={12} md={6}>
-                            <Appointments
-                                date={date}
-                            />
-                        </Grid>
-
-                    </Grid>
-
-                </Typography>
+                <Switch>
+                    <Route exact path={path}>
+                        <DashboardHome />
+                    </Route>
+                    <AdminRoute path={`${path}/makeAdmin`}>
+                        <MakeAdmin />
+                    </AdminRoute>
+                    <AdminRoute to={`${url}/addDoctor`}>
+                        <AddDoctor />
+                    </AdminRoute>
+                </Switch>
 
             </Box>
         </Box>

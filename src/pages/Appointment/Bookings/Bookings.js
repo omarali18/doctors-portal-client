@@ -8,7 +8,7 @@ const Bookings = ({ booking, date, setBookingSuccess }) => {
     const handleBookingOpen = () => setOpenBooking(true);
     const handleBookingClose = () => setOpenBooking(false);
 
-    const { name, time, space } = booking
+    const { name, time, space, price } = booking
     // console.log(props.booking);
     return (
         <>
@@ -19,6 +19,9 @@ const Bookings = ({ booking, date, setBookingSuccess }) => {
                     </Typography>
                     <Typography variant="h6" gutterBottom component="div">
                         {time}
+                    </Typography>
+                    <Typography variant="h6" gutterBottom component="div">
+                        Price: ${price}
                     </Typography>
                     <Typography sx={{ pb: 2 }} variant="caption" display="block" gutterBottom>
                         {space} Space Available
