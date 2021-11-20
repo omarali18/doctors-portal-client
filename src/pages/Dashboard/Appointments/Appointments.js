@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Link } from 'react-router-dom';
 // import Box from '@mui/material/Box'
 // import { Typography } from '@mui/material';
 
@@ -21,7 +22,7 @@ const Appointments = ({ date }) => {
         fetch(url)
             .then(res => res.json())
             .then(data => setAppointments(data))
-    }, [date])
+    }, [updateDate])
 
     return (
         <div>
@@ -33,6 +34,7 @@ const Appointments = ({ date }) => {
                         <TableRow>
                             <TableCell>patientName</TableCell>
                             <TableCell align="right">Time</TableCell>
+                            <TableCell align="right">Service</TableCell>
                             <TableCell align="right">Action</TableCell>
                         </TableRow>
                     </TableHead>
@@ -47,6 +49,7 @@ const Appointments = ({ date }) => {
                                 </TableCell>
                                 <TableCell align="right">{row.time}</TableCell>
                                 <TableCell align="right">{row.serviceName}</TableCell>
+                                <TableCell align="right">{row.payment ? "Paid" : <Link to={`/dashboard/payment/${row._id}`}> <button>Pay</button> </Link>}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

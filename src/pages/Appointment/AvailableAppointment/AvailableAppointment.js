@@ -1,4 +1,4 @@
-import { Alert, AlertTitle, Container, Grid, Typography } from '@mui/material';
+import { Alert, Container, Grid, Typography } from '@mui/material';
 import Bookings from "../Bookings/Bookings.js"
 import React, { useState } from 'react';
 const bookings = [

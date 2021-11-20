@@ -1,6 +1,4 @@
 import { Alert, AlertTitle, Button, CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
-import { lightGreen } from '@mui/material/colors';
-import { margin, width } from '@mui/system';
 import React, { useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import login from "../../../images/login.png"
@@ -93,7 +91,7 @@ const Register = () => {
                     }
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <img src={login} sx={{ width: 1 }}></img>
+                    <img src={login} alt="" sx={{ width: 1 }}></img>
                 </Grid>
             </Grid>
         </Container>

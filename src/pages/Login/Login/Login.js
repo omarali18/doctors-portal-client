@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Alert, AlertTitle, Button, CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
-import { lightGreen } from '@mui/material/colors';
-import { margin, width } from '@mui/system';
 import { NavLink, useLocation, useHistory } from 'react-router-dom';
 import useAuth from '../../../Hooks/useAuth';
 import login from "../../../images/login.png"
@@ -70,7 +68,7 @@ const Login = () => {
                     <Button onClick={handleGoogleSignin} variant="contained">Googel sign in</Button>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <img src={login} sx={{ width: 1 }}></img>
+                    <img src={login} alt="" sx={{ width: 1 }}></img>
                 </Grid>
             </Grid>
         </Container>
