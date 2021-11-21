@@ -107,7 +107,7 @@ const useFirebase = () => {
     // save user in database
     const saveUsers = (email, displayName, method, Password) => {
         const user = { email, displayName, Password: "" }
-        fetch("http://localhost:5000/users", {
+        fetch("https://aqueous-plains-02922.herokuapp.com/users", {
             method: method,
             headers: {
                 "content-type": "application/json"
@@ -119,7 +119,7 @@ const useFirebase = () => {
         // const email = user.email
         // if (email) {
 
-        fetch(`http://localhost:5000/users/${user.email}`)
+        fetch(`https://aqueous-plains-02922.herokuapp.com/users/${user.email}`)
             .then(res => res.json())
             .then(data => {
                 setAdmin(data)

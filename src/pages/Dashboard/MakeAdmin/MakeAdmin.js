@@ -15,7 +15,7 @@ const MakeAdmin = () => {
     console.log(email);
     const handleAdminSubmit = e => {
         e.preventDefault()
-        fetch("http://localhost:5000/users/admin", {
+        fetch("https://aqueous-plains-02922.herokuapp.com/users/admin", {
             method: "PUT",
             headers: {
                 "authorization": ` Bearer ${token}`,
