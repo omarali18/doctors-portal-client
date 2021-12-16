@@ -14,13 +14,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import SvgIcon from '@mui/material/SvgIcon';
-import { NavLink, useRouteMatch, Switch, Route } from 'react-router-dom';
-import DashboardHome from '../DashboardHome/DashboardHome';
-import MakeAdmin from '../MakeAdmin/MakeAdmin';
-import AddDoctor from '../AddDoctor/AddDoctor';
+import { Link, Outlet } from 'react-router-dom';
 import useAuth from '../../../Hooks/useAuth';
-import AdminRoute from '../../Login/AdminRoute/AdminRoute';
-import Payment from '../Payment/Payment'
 
 const drawerWidth = 240;
 function HomeIcon(props) {
@@ -36,7 +31,6 @@ function Dashboard(props) {
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const { admin } = useAuth()
 
-    let { path, url } = useRouteMatch();
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -47,38 +41,38 @@ function Dashboard(props) {
             <Toolbar />
             <Divider />
             <List>
-                <NavLink style={{ textDecoration: 'none', color: 'gray' }} to="/home"><ListItem button>
+                <Link style={{ textDecoration: 'none', color: 'gray' }} to="/home"><ListItem button>
                     <ListItemIcon>
                         <HomeIcon color="primary" />
                     </ListItemIcon>
                     <ListItemText primary="Home" />
-                </ListItem></NavLink>
-                <NavLink style={{ textDecoration: 'none', color: 'gray' }} to="/Appointment"><ListItem button>
+                </ListItem></Link>
+                <Link style={{ textDecoration: 'none', color: 'gray' }} to="/Appointment"><ListItem button>
                     <ListItemIcon>
                         <HomeIcon color="primary" />
                     </ListItemIcon>
                     <ListItemText primary="Appointment" />
-                </ListItem></NavLink>
-                <NavLink style={{ textDecoration: 'none', color: 'gray' }} to={`${url}`}><ListItem button>
+                </ListItem></Link>
+                <Link style={{ textDecoration: 'none', color: 'gray' }} to="/dashboard"><ListItem button>
                     <ListItemIcon>
                         <HomeIcon color="primary" />
                     </ListItemIcon>
                     <ListItemText primary="Dashboard" />
-                </ListItem></NavLink>
+                </ListItem></Link>
                 {
                     admin && <Box>
-                        <NavLink style={{ textDecoration: 'none', color: 'gray' }} to={`${url}/makeAdmin`}><ListItem button>
+                        <Link style={{ textDecoration: 'none', color: 'gray' }} to="/dashboard/makeAdmin"><ListItem button>
                             <ListItemIcon>
                                 <HomeIcon color="primary" />
                             </ListItemIcon>
                             <ListItemText primary="Make Admin" />
-                        </ListItem></NavLink>
-                        <NavLink style={{ textDecoration: 'none', color: 'gray' }} to={`${url}/addDoctor`}><ListItem button>
+                        </ListItem></Link>
+                        <Link style={{ textDecoration: 'none', color: 'gray' }} to="/dashboard/addDoctor"><ListItem button>
                             <ListItemIcon>
                                 <HomeIcon color="primary" />
                             </ListItemIcon>
                             <ListItemText primary="Add Doctor" />
-                        </ListItem></NavLink>
+                        </ListItem></Link>
 
                     </Box>
                 }
@@ -153,20 +147,8 @@ function Dashboard(props) {
                 sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
             >
                 <Toolbar />
-                <Switch>
-                    <Route exact path={path}>
-                        <DashboardHome />
-                    </Route>
-                    <Route path={`${path}/payment/:AppointmentId`}>
-                        <Payment />
-                    </Route>
-                    <AdminRoute path={`${path}/makeAdmin`}>
-                        <MakeAdmin />
-                    </AdminRoute>
-                    <AdminRoute to={`${url}/addDoctor`}>
-                        <AddDoctor />
-                    </AdminRoute>
-                </Switch>
+
+                <Outlet />
 
             </Box>
         </Box>
@@ -174,10 +156,7 @@ function Dashboard(props) {
 }
 
 Dashboard.propTypes = {
-    /**
-     * Injected by the documentation to work in an iframe.
-     * You won't need it on your project.
-     */
+
     window: PropTypes.func,
 };
 

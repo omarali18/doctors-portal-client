@@ -10,7 +10,6 @@ const Doctors = () => {
             .then(data => setDoctors(data))
     }, [])
 
-    console.log(doctors);
     return (
         <div>
             <h1>this is doctors {doctors.length}</h1>
@@ -18,7 +17,7 @@ const Doctors = () => {
                 <Grid container spacing={2}>
                     {
                         doctors.map(doctor => <Doctor
-                            ke={doctor._id}
+                            key={doctor._id}
                             doctor={doctor}
                         />)
                     }

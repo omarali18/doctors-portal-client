@@ -1,6 +1,6 @@
 import { Alert, AlertTitle, Button, CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import login from "../../../images/login.png"
 import useAuth from '../../../Hooks/useAuth';
 
@@ -9,7 +9,7 @@ const Register = () => {
     const [error, setError] = useState("");
     const { user, registerUser, isLoading, authError } = useAuth();
 
-    const history = useHistory()
+    const navigate = useNavigate()
 
     const handleOnBlur = e => {
         const field = e.target.name;
@@ -27,7 +27,7 @@ const Register = () => {
         }
         else {
             setError("")
-            registerUser(loginData.email, loginData.password, loginData.name, history)
+            registerUser(loginData.email, loginData.password, loginData.name, navigate)
         }
         e.preventDefault()
     }

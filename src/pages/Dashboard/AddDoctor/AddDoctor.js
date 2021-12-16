@@ -5,12 +5,14 @@ const AddDoctor = () => {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [image, setImage] = useState(null)
+    const [success, setSuccess] = useState("")
 
     const handlesubmit = e => {
         e.preventDefault();
         if (!image) {
             return;
         }
+        setSuccess("Processing panding.")
         const formData = new FormData();
         formData.append("name", name);
         formData.append("email", email);
@@ -24,6 +26,7 @@ const AddDoctor = () => {
             .then(data => {
                 if (data.insertedId) {
                     console.log("Added a new doctor successfully");
+                    setSuccess("New Doctor added successfully")
                 }
             })
             .catch(error => {
@@ -35,6 +38,7 @@ const AddDoctor = () => {
     return (
         <div>
             <h1>Add a New Doctor</h1>
+            {success && <p style={{ color: 'green' }}>{success}</p>}
             <form onSubmit={handlesubmit}>
                 <TextField
                     sx={{ width: "50%" }}

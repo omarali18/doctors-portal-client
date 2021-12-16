@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import userEvent from '@testing-library/user-event';
 import useAuth from '../../../Hooks/useAuth'
 import { CircularProgress } from '@mui/material';
 

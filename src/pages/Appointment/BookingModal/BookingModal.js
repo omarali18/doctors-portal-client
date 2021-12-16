@@ -18,6 +18,7 @@ const style = {
 
 const BookingModal = ({ openBooking, handleBookingClose, booking, date, setBookingSuccess }) => {
     const { name, time, price } = booking;
+    console.log("booking is 111111111111111 ", booking);
     const { user } = useAuth()
 
     const initialInfo = { patientName: user.displayName, email: user.email, phone: "" }

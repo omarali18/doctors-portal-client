@@ -2,7 +2,6 @@ import { Grid, Typography } from '@mui/material';
 import React from 'react';
 
 const Doctor = ({ doctor }) => {
-    console.log(doctor);
     const { name, image } = doctor;
 
     return (
